@@ -1,5 +1,6 @@
 #https://forums.autodesk.com/t5/revit-api-forum/get-revit-model-categories-as-in-the-object-styles-dialog/td-p/9979578
 #на выходе получим список true/false
+
 import clr
 clr.AddReference('RevitAPI')
 from Autodesk.Revit.DB import *
