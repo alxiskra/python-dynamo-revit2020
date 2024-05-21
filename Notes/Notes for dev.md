@@ -5,3 +5,7 @@
 [python revitAPI_Amoursol](https://github.com/Amoursol/dynamoPython/tree/master/revitAPI)
 
 [dynamopythonprimer.gitbook.io](https://dynamopythonprimer.gitbook.io/dynamo-python-primer/seeing-the-bigger-picture/what-is-an-api)
+
+
+Dynamo Hotkeys
+Создать примечание: Ctrl + W
