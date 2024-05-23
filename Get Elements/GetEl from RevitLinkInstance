@@ -1,0 +1,48 @@
+# Enable Python support and load DesignScript library
+import clr
+clr.AddReference('ProtoGeometry')
+from Autodesk.DesignScript.Geometry import *
+
+# Import ToDSType(bool) extension method
+clr.AddReference("RevitNodes")
+import Revit
+clr.ImportExtensions(Revit.Elements)
+
+# Import DocumentManager and TransactionManager
+clr.AddReference("RevitServices")
+import RevitServices
+from RevitServices.Persistence import DocumentManager
+
+# Import RevitAPI
+clr.AddReference("RevitAPI")
+import Autodesk
+from Autodesk.Revit.DB import *
+
+# Importing .NET List colelction, required for ElementMulticategoryFilter
+from System.Collections.Generic import List
+
+doc = DocumentManager.Instance.CurrentDBDocument
+
+# The inputs to this node will be stored as a list in the IN variables.
+
+# RevitLinkInstance | можно получить с помощью нода Select Model Element
+inLink = IN[0]
+# Категория подается через нод Categories списков | если нужна одна категория то нужно обернуть её в список
+inCats = IN[1]
+
+# Creating ElementIds from Id integers
+catIds = [ElementId(category.Id) for category in inCats]
+# Creating a .NET List collection of ElementIds
+categoryIds = List[ElementId](catIds)
+
+# Retrieving linked document
+mLink = doc.GetElement(ElementId(inLink.Id)).GetLinkDocument()
+sysFilter = ElementMulticategoryFilter(categoryIds)
+
+mOut = FilteredElementCollector(mLink) \
+	.WhereElementIsNotElementType() \
+	.WherePasses(sysFilter) \
+	.ToElements()
+
+# Assign your output to the OUT variable.
+OUT = mOut
